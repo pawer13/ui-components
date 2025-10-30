@@ -104,35 +104,6 @@ export const dropdownRenderSelect = (
     </StyledSelectDropdown>
 );
 
-export const renderUnselectedOption = (option: any, searchValue: string, dataId: string) => {
-    if (searchValue !== '' && (![...searchValue].every((char) => char === '*' || char === ' ') || !searchValue.includes(ALL_CHARACTER))) {
-        const regex = getRegExpBasedOnInput(searchValue);
-        if (regex === false) {
-            return (
-                <StyledSpanOption data-testid={`option-span-${option.value}`} data-id={`${dataId}.option-span-${option.value}`} value={option as string}>
-                    {option}
-                </StyledSpanOption>
-            );
-        }
-        const indices = findSubstringIndices(option as string, regex);
-        if (indices.start !== -1 && indices.end !== -1) {
-            return (
-                <StyledSpanOption data-testid={`option-span-${option}-bold`} data-id={`${dataId}.option-span-${option.value}-bold`} value={option as string}>
-                    {[...option].map((letter, index) => {
-                        const isBold = searchValue.includes(ALL_CHARACTER) ? index === indices.start || index === indices.end : index >= indices.start && index <= indices.end;
-                        return isBold ? <b key={letter}>{letter}</b> : letter;
-                    })}
-                </StyledSpanOption>
-            );
-        }
-    }
-    return (
-        <StyledSpanOption data-testid={`option-span-${option}`} value={option as string}>
-            {option}
-        </StyledSpanOption>
-    );
-};
-
 const isDisabledOption = (option: Option, selectedValues: Array<string | number>, pageSize?: number) => {
     if (pageSize !== undefined) return selectedValues.length >= pageSize && !selectedValues.includes(option.value);
     return option.disabled;
@@ -345,6 +316,7 @@ export const Select = withDataId(
                         optionRender={optionRender as (option: FlattenOptionData<BaseOptionType>, info: { index: number }) => React.ReactNode}
                         options={options}
                         loading={isLoading}
+                        open={showDropdown}
                         placeholder={placeholder}
                         ref={(r) => {
                             ref.current = r;

@@ -1,5 +1,5 @@
 import { ButtonPaginationSelector, getButtonText } from '@components/Select/ButtonPaginationSelector';
-import { tagRenderButtonPagination, dropdownRenderSelect, renderUnselectedOption, Select } from '@components/Select/Select';
+import { tagRenderButtonPagination, dropdownRenderSelect, Select } from '@components/Select/Select';
 import { filterOption, getOptionsBySearch } from '@components/Select/selectUtils';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vitest } from 'vitest';
@@ -321,20 +321,7 @@ describe('Ancillary functions', () => {
             expect(buttonSelectAll).toBeNull();
         });
     });
-    describe('renderUnselectedOption', () => {
-        it('should render an simple option when no search value', () => {
-            const option = 'Test 1';
-            render(renderUnselectedOption(option, '', 'dataId'));
-            const optionWrapper = screen.getByTestId('option-span-Test 1');
-            expect(optionWrapper).toBeTruthy();
-        });
-        it('should render an bold option when search value matches', () => {
-            const option = 'Test 1';
-            render(renderUnselectedOption(option, 'Test', 'dataId'));
-            const optionWrapper = screen.getByTestId('option-span-Test 1-bold');
-            expect(optionWrapper).toBeTruthy();
-        });
-    });
+    
 });
 
 describe('Select', () => {
